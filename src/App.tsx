@@ -1,10 +1,11 @@
-import NotesPage from "./pages/NotesPage/NotesPage"
 import { useState } from "react"
 import TodosPage from "./pages/TodosPage/TodosPage"
+import NotesPage from "./pages/NotesPage/NotesPage"
+
 function App() {
 
 
-  let [currentPage] = useState<string>('notes');
+  let [currentPage] = useState<string>('todos');
 
 
   if (currentPage === 'notes') {

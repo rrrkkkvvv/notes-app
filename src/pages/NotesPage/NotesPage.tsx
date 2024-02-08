@@ -4,7 +4,6 @@ import Notes from "./components/notes/Notes"
 import { GoPlus } from "react-icons/go";
 import FullNote from "./components/fullNote/FullNote";
 import Search from "./components/Search";
-
 export default function NotesPage() {
 
 
