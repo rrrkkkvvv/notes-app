@@ -4,7 +4,7 @@ import TodosPage from "./pages/TodosPage/TodosPage"
 function App() {
 
 
-  let [currentPage] = useState<string>('notes')
+  let [currentPage] = useState<string>('notes');
 
 
   if (currentPage === 'notes') {

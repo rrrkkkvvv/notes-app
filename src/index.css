@@ -83,6 +83,7 @@ main {
 @media(hover:hover) {
   .add-new-note:hover {
     opacity: 0.5;
+    transform: scale(1.1);
   }
 }
 
