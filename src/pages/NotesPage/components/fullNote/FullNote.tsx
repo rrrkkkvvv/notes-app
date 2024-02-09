@@ -1,4 +1,4 @@
-import { FullNotePorps } from '../../../../types/note'
+import { FullNotePorps } from '../../types/note'
 import { IoReturnDownBackOutline } from "react-icons/io5";
 import { ChangeEvent } from 'react'
 export default function FullNote({ currentFullNote, showFullNote, toogleShowFullNote, updateNote }: FullNotePorps) {

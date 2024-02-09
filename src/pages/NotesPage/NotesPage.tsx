@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import INote from "../../types/note"
+import INote from "./types/note"
 import Notes from "./components/notes/Notes"
 import { GoPlus } from "react-icons/go";
 import FullNote from "./components/fullNote/FullNote";

@@ -1,4 +1,4 @@
-import { SearchProps } from '../../../types/note'
+import { SearchProps } from '../types/note'
 
 export default function Search({ searchFilter }: SearchProps) {
     return (

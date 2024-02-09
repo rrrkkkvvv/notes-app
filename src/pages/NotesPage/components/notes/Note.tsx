@@ -1,5 +1,5 @@
 
-import { NotePorps } from '../../../../types/note'
+import { NotePorps } from '../../types/note'
 
 export default function Note({ note, removeNote, setFullNote, toogleShowFullNote }: NotePorps) {
     return (

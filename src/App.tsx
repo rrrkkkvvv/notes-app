@@ -1,20 +1,31 @@
 import { useState } from "react"
 import TodosPage from "./pages/TodosPage/TodosPage"
 import NotesPage from "./pages/NotesPage/NotesPage"
-
+import Navbar from "./Navbar";
 function App() {
 
 
-  let [currentPage] = useState<string>('todos');
+  let [currentPage, setCurrentPage] = useState<string>('notes');
 
 
+  function setPage(page: string): void {
+    setCurrentPage(page)
+  }
   if (currentPage === 'notes') {
     return (
-      <NotesPage />
+
+      <div>
+        <Navbar setPage={setPage} currentPage={currentPage} />
+
+        <NotesPage />
+      </div>
     )
   } else if (currentPage === 'todos') {
     return (
-      <TodosPage />
+      <div>
+        <Navbar setPage={setPage} currentPage={currentPage} />
+        <TodosPage />
+      </div>
     )
   }
 
