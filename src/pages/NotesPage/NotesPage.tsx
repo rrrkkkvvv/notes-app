@@ -29,9 +29,10 @@ export default function NotesPage() {
     }, [])
 
     function createNewNote(): void {
-        let newNotesList = [...notesList, { id: notesList.length, title: '', text: '' }]
+        let date = new Date();
+        let newNotesList = [...notesList, { id: notesList.length, title: '', text: '', date: date }];
         setNotesList(newNotesList);
-        setCurrentNotesList([...currentNotesList, { id: currentNotesList.length, title: '', text: '' }])
+        setCurrentNotesList([...currentNotesList, { id: currentNotesList.length, title: '', text: '', date: date }]);
         setFullNote(notesList.length);
         localStorage.setItem('notes', JSON.stringify(newNotesList));
 
@@ -63,6 +64,7 @@ export default function NotesPage() {
 
 
     function updateNote(argId: number, newTitle: string, newText: string,) {
+        let newDate = new Date();
 
         const updatedNotesList = notesList.map(note => {
             if (note.id === argId) {
@@ -71,6 +73,8 @@ export default function NotesPage() {
                     ...note,
                     title: newTitle,
                     text: newText,
+                    date: newDate,
+
                 };
             }
             return note;
