@@ -45,8 +45,9 @@ main {
   & .date-block {
     cursor: auto;
     position: absolute;
-    left: 20px;
+    left: 15px;
     bottom: 15px;
+    font-size: 0.85rem;
   }
 
   & .remove-note {
