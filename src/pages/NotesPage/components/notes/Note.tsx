@@ -15,7 +15,7 @@ export default function Note({ note, removeNote, setFullNote, toogleShowFullNote
                     <h5 className="card-title">{note.title}</h5>
                     <p className="card-text">{note.text}</p>
 
-                    <div className="date-block">{note.date.toLocaleString()}</div>
+                    <div className="date-block">{note.date}</div>
                 </div>
 
             </div>

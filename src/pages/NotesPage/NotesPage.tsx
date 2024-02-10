@@ -29,7 +29,7 @@ export default function NotesPage() {
     }, [])
 
     function createNewNote(): void {
-        let date = new Date();
+        let date = new Date().toLocaleString();
         let newNotesList = [...notesList, { id: notesList.length, title: '', text: '', date: date }];
         setNotesList(newNotesList);
         setCurrentNotesList([...currentNotesList, { id: currentNotesList.length, title: '', text: '', date: date }]);
@@ -64,7 +64,7 @@ export default function NotesPage() {
 
 
     function updateNote(argId: number, newTitle: string, newText: string,) {
-        let newDate = new Date();
+        let newDate = new Date().toLocaleString();
 
         const updatedNotesList = notesList.map(note => {
             if (note.id === argId) {
@@ -102,7 +102,7 @@ export default function NotesPage() {
             </nav>
             <main className=" ">
 
-                <div className="col-12   mt-2">
+                <div className="col-12 pl-2   mt-2">
                     <Notes toogleShowFullNote={toggleShowFullNote} setFullNote={setFullNote} removeNote={removeNote} notesList={currentNotesList} />
                 </div>
 
