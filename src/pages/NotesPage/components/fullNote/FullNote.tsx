@@ -25,6 +25,8 @@ export default function FullNote({ currentFullNote, showFullNote, toogleShowFull
                 <div className='modal-body' onClick={(e) => e.stopPropagation()} >
 
                     <span className='close-modal-x' onClick={toogleShowFullNote}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
+                    <span className='fullNote-date-block'>{currentFullNote.date}</span>
+                    <span className='fullNote-text-length-block'>{currentFullNote.text.length} symblos</span>
                     <input type='text' className='input-fullNote' placeholder='Title...' value={currentFullNote.title} onChange={
                         (e) => {
                             onInputTitle(e);
