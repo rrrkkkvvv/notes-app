@@ -41,11 +41,13 @@ export default function TodosPage() {
 
 
     function deleteTodo(id: number): void {
-        let newTodos = todos.filter((todo) => todo.id !== id)
-        setTodos(newTodos)
-        setCurrentTodos(newTodos)
+        let newTodos = todos.filter((todo) => todo.id !== id);
+        newTodos.forEach((todo, index) => {
+            todo.id = index;
+        })
+        setTodos(newTodos);
+        setCurrentTodos(newTodos);
         localStorage.setItem('todos', JSON.stringify(newTodos));
-        console.log(todos)
     }
 
     useEffect(() => {
@@ -93,7 +95,7 @@ export default function TodosPage() {
     }
 
     const addTodo = (text: string): void => {
-        let newTodo: todoStateItem = { id: todos.length + 1, text: text, completed: false }
+        let newTodo: todoStateItem = { id: todos.length, text: text, completed: false }
         setCurrentTodos([newTodo, ...currentTodos])
         setTodos([newTodo, ...todos])
 
