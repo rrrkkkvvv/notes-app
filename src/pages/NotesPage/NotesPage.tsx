@@ -12,6 +12,7 @@ export default function NotesPage() {
     const [currentNotesList, setCurrentNotesList] = useState<INote[]>(notesList)
 
     const [fullNoteVisibility, setFullNoteVisibility] = useState<boolean>(false);
+    const [addFullNoteVisibility, setAddFullNoteVisibility] = useState<boolean>(false);
     const [currentFullNote, setCurrentFullNote] = useState<number>(0);
 
     useEffect(() => {
@@ -28,37 +29,43 @@ export default function NotesPage() {
         }
     }, [])
 
-    function createNewNote(): void {
-        let date = new Date().toLocaleString();
-        let newNotesList = [...notesList, { id: notesList.length, title: '', text: '', date: date }];
-        setNotesList(newNotesList);
-        setCurrentNotesList([...currentNotesList, { id: currentNotesList.length, title: '', text: '', date: date }]);
-        setFullNote(notesList.length);
-        localStorage.setItem('notes', JSON.stringify(newNotesList));
-
-        toggleShowFullNote()
+    function createNewNote(title: string, text: string): void {
+        if (title.trim().length || text.trim().length) {
+            let date = new Date().toLocaleString();
+            let newNotesList = [...notesList, { id: notesList.length, title: title, text: text, date: date }];
+            setNotesList(newNotesList);
+            setCurrentNotesList([...currentNotesList, { id: currentNotesList.length, title: title, text: text, date: date }]);
+            localStorage.setItem('notes', JSON.stringify(newNotesList));
+        }
     }
 
     function removeNote(id: number): void {
-        let newNoteList = notesList.filter((note) => note.id !== id)
+        let newNoteList = notesList.filter((note) => note.id !== id);
+        newNoteList.forEach((note, index) => {
+            note.id = index;
+        });
         setNotesList(newNoteList);
         setCurrentNotesList(newNoteList);
-        localStorage.setItem('notes', JSON.stringify(newNoteList))
+        localStorage.setItem('notes', JSON.stringify(newNoteList));
 
     }
 
     function setFullNote(id: number): void {
+
         setCurrentFullNote(id);
+        toggleShowFullNote();
+
     }
     function toggleShowFullNote(): void {
         setFullNoteVisibility(!fullNoteVisibility);
     }
+    function toggleAddShowFullNote(): void {
+        setAddFullNoteVisibility(!addFullNoteVisibility);
+    }
 
     function searchFilter(inputText: string) {
-        setTimeout(() => {
-            let filtredNoteList = notesList.filter((note) => note.text.includes(inputText.trim()) || note.title.includes(inputText.trim()));
-            setCurrentNotesList(filtredNoteList);
-        }, 500);
+        let filtredNoteList = notesList.filter((note) => note.text.includes(inputText.trim()) || note.title.includes(inputText.trim()));
+        setCurrentNotesList(filtredNoteList);
 
     }
 
@@ -106,9 +113,10 @@ export default function NotesPage() {
                     <Notes toogleShowFullNote={toggleShowFullNote} setFullNote={setFullNote} removeNote={removeNote} notesList={currentNotesList} />
                 </div>
 
-                <GoPlus className="add-new-note" onClick={createNewNote} />
+                <GoPlus className="add-new-note" onClick={() => setAddFullNoteVisibility(true)} />
 
-                <FullNote currentFullNote={notesList[currentFullNote]} updateNote={updateNote} showFullNote={fullNoteVisibility} toogleShowFullNote={toggleShowFullNote} />
+                <FullNote type={"add-note"} addNewNote={createNewNote} showAddFullNote={addFullNoteVisibility} toggleAddShowFullNote={toggleAddShowFullNote} />
+                <FullNote type={"reading-updating-note"} currentFullNote={notesList[currentFullNote]} updateNote={updateNote} showFullNote={fullNoteVisibility} toogleShowFullNote={toggleShowFullNote} />
             </main>
 
         </>

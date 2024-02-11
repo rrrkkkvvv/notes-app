@@ -7,7 +7,6 @@ export default function Note({ note, removeNote, setFullNote, toogleShowFullNote
         <div className=" col-lg-3 col-sm-6 col-md-6 col-6">
             <div className="card" onClick={() => {
                 setFullNote(note.id);
-
                 toogleShowFullNote();
             }}>
                 <div className='remove-note' onClick={(e) => { e.stopPropagation(); removeNote(note.id); }}>X</div>

@@ -2,13 +2,14 @@ import { useState } from "react"
 import TodosPage from "./pages/TodosPage/TodosPage"
 import NotesPage from "./pages/NotesPage/NotesPage"
 import Navbar from "./Navbar";
+import CurrentPageStatus from "./global types/CurrentPageStatus";
+
 function App() {
 
+  let [currentPage, setCurrentPage] = useState<CurrentPageStatus>('notes');
 
-  let [currentPage, setCurrentPage] = useState<string>('notes');
 
-
-  function setPage(page: string): void {
+  function setPage(page: CurrentPageStatus): void {
     setCurrentPage(page)
   }
   if (currentPage === 'notes') {

@@ -1,5 +1,6 @@
+import CurrentPageStatus from "./global types/CurrentPageStatus";
 interface NavbarProps {
-    setPage: (page: string) => void;
+    setPage: (page: CurrentPageStatus) => void;
     currentPage: string
 }
 
