@@ -2,7 +2,7 @@
     "name": "notes app",
     "description": "notes app for some notes and tasks",
     "short_name": "notes app",
-    "start_url": "/https://rrrkkkvvv.github.io/notes-app/",
+    "start_url": "https://rrrkkkvvv.github.io/notes-app/",
     "lang": "uk",
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
@@ -48,7 +48,13 @@
             "src": "\/ms-icon-512x512.png",
             "sizes": "512x512",
             "type": "image\/png",
-            "density": "4.0"
+            "density": "5.0"
+        },
+        {
+            "src": "\/android-icon-192x192.png",
+            "sizes": "196x196",
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ]
 }
