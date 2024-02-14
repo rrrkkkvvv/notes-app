@@ -33,7 +33,7 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
                         <span className='close-modal-x' onClick={props.toogleShowFullNote}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
                         <span className='fullNote-date-block'>{props.currentFullNote.date}</span>
                         <span className='fullNote-text-length-block'>{props.currentFullNote.text.length} symblos</span>
-                        <input type='text' className='input-fullNote' placeholder='Title...' value={props.currentFullNote.title.trim()} onChange={
+                        <input type='text' className='input-fullNote' placeholder='Title...' value={props.currentFullNote.title} onChange={
                             (e) => {
                                 onInputTitle(e);
                             }
@@ -71,14 +71,14 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
                 <div className='modal-body' onClick={(e) => e.stopPropagation()} >
 
                     <span className='close-modal-x' onClick={() => {
-                        setTitleText(' ');
+                        setTitleText('');
                         setMainText('');
                         props.addNewNote(titleText, mainText);
                         props.toggleAddShowFullNote();
                     }}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
                     <span className='fullNote-date-block'></span>
                     <span className='fullNote-text-length-block'>{mainText.length} symblos</span>
-                    <input type='text' className='input-fullNote' placeholder='Title...' value={titleText.trim()} onChange={(e) => {
+                    <input type='text' className='input-fullNote' placeholder='Title...' value={titleText} onChange={(e) => {
                         setTitleText(e.target.value);
 
                     }} />
