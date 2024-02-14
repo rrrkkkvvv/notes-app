@@ -4,6 +4,7 @@ import Notes from "./components/notes/Notes"
 import { GoPlus } from "react-icons/go";
 import FullNote from "./components/fullNote/FullNote";
 import Search from "./components/Search";
+import Categories from "./components/categories/Categories";
 export default function NotesPage() {
 
 
@@ -14,6 +15,14 @@ export default function NotesPage() {
     const [fullNoteVisibility, setFullNoteVisibility] = useState<boolean>(false);
     const [addFullNoteVisibility, setAddFullNoteVisibility] = useState<boolean>(false);
     const [currentFullNote, setCurrentFullNote] = useState<number>(0);
+    const [categoriesList, setCategoriesList] = useState([
+        { key: 'all', title: 'All', activity: true },
+        { key: 'main', title: 'Main', activity: false },
+        { key: 'diary', title: 'Diary', activity: false },
+        { key: 'lessons', title: 'Lessons', activity: false },
+        { key: 'any', title: 'any', activity: false },
+    ]);
+
 
     useEffect(() => {
         let storedNotes = localStorage.getItem('notes');
@@ -106,6 +115,7 @@ export default function NotesPage() {
                 <form className="container-fluid justify-content-center mt-3 " role="search">
                     <Search searchFilter={searchFilter} />
                 </form>
+                <Categories categoryList={categoriesList} />
             </nav>
             <main >
 

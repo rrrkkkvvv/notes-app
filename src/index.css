@@ -13,9 +13,28 @@ main {
 
 @media(max-width:1000px) {
   .search-input {
-    width: 100%;
+    width: 100dvw;
   }
 }
+
+.menu-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.nav-pills {
+  flex-wrap: nowrap;
+  padding: 10px;
+}
+
+.nav-pills .nav-item {
+  display: inline-block;
+  /* Делаем элементы списка строчными, чтобы они не переносились на новую строку */
+  margin-right: 5px;
+  /* Добавляем небольшой отступ между элементами списка */
+}
+
 
 .card-thumb {
   padding: 0 5px;
