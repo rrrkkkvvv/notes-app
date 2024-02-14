@@ -4,7 +4,7 @@ import { NotePorps } from '../../types/note'
 export default function Note({ note, removeNote, setFullNote, toogleShowFullNote }: NotePorps) {
     return (
 
-        <div className=" col-lg-3 col-sm-6 col-md-6 col-6">
+        <div className="card-thumb col-lg-3 col-sm-6 col-md-6 col-6">
             <div className="card" onClick={() => {
                 setFullNote(note.id);
                 toogleShowFullNote();

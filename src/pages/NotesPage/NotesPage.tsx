@@ -107,9 +107,9 @@ export default function NotesPage() {
                     <Search searchFilter={searchFilter} />
                 </form>
             </nav>
-            <main className=" ">
+            <main >
 
-                <div className="col-12 pl-2   mt-2">
+                <div className="col-12   mt-2">
                     <Notes toogleShowFullNote={toggleShowFullNote} setFullNote={setFullNote} removeNote={removeNote} notesList={currentNotesList} />
                 </div>
 
