@@ -5,22 +5,27 @@ import { GoPlus } from "react-icons/go";
 import FullNote from "./components/fullNote/FullNote";
 import Search from "./components/Search";
 import Categories from "./components/categories/Categories";
+import { CategoryType } from "./types/Categories";
 export default function NotesPage() {
 
 
 
-    const [notesList, setNotesList] = useState<INote[]>([]);
-    const [currentNotesList, setCurrentNotesList] = useState<INote[]>(notesList)
+    let [notesList, setNotesList] = useState<INote[]>([]);
+    let [currentNotesList, setCurrentNotesList] = useState<INote[]>(notesList);
 
-    const [fullNoteVisibility, setFullNoteVisibility] = useState<boolean>(false);
-    const [addFullNoteVisibility, setAddFullNoteVisibility] = useState<boolean>(false);
-    const [currentFullNote, setCurrentFullNote] = useState<number>(0);
-    const [categoriesList, setCategoriesList] = useState([
-        { key: 'all', title: 'All', activity: true },
-        { key: 'main', title: 'Main', activity: false },
-        { key: 'diary', title: 'Diary', activity: false },
-        { key: 'lessons', title: 'Lessons', activity: false },
-        { key: 'any', title: 'any', activity: false },
+    let [fullNoteVisibility, setFullNoteVisibility] = useState<boolean>(false);
+    let [addFullNoteVisibility, setAddFullNoteVisibility] = useState<boolean>(false);
+    let [categoryFullNoteVisibility, setCategoryFullNoteVisibility] = useState<boolean>(false);
+    let [currentFullNote, setCurrentFullNote] = useState<number>(0);
+    let [currentCategory, setCurrentCategory] = useState<string>('all');
+
+    // const [categoriesList, setCategoriesList] = useState<CategoryType[]>([
+    const [categoriesList] = useState<CategoryType[]>([
+        { key: 'all', title: 'All' },
+        { key: 'main', title: 'Main' },
+        { key: 'diary', title: 'Diary' },
+        { key: 'lessons', title: 'Lessons' },
+        { key: 'any', title: 'any' },
     ]);
 
 
@@ -32,19 +37,41 @@ export default function NotesPage() {
                 setCurrentNotesList(parsedNotes);
                 setNotesList(parsedNotes);
             } catch (error) {
-                console.error('Error parsing notes', error)
+                console.error('Error parsing notes', error);
             }
 
         }
     }, [])
 
+
+    function setCategory(key: string) {
+        if (key === 'all') {
+
+            setCurrentCategory(key);
+            setCurrentNotesList(notesList);
+
+        } else {
+            setCurrentCategory(key);
+            setCurrentNotesList(currentNotesList = notesList.filter(note => note.category === key));
+        }
+
+    }
+    function setNoteCategory(id: number, category: string): void {
+        let newNotesList = notesList;
+        newNotesList.forEach(note => note.id === id ? note.category = category : note);
+        setNotesList(newNotesList);
+        setCurrentNotesList(newNotesList);
+        setCategory(category);
+    }
     function createNewNote(title: string, text: string): void {
+
         if (title.trim().length || text.trim().length) {
             let date = new Date().toLocaleString();
-            let newNotesList = [...notesList, { id: notesList.length, title: title, text: text, date: date }];
+            let newNotesList = [...notesList, { id: notesList.length, title: title, text: text, date: date, category: currentCategory }];
             setNotesList(newNotesList);
-            setCurrentNotesList([...currentNotesList, { id: currentNotesList.length, title: title, text: text, date: date }]);
+            setCurrentNotesList([...currentNotesList, { id: currentNotesList.length, title: title, text: text, date: date, category: currentCategory }]);
             localStorage.setItem('notes', JSON.stringify(newNotesList));
+
         }
     }
 
@@ -70,6 +97,9 @@ export default function NotesPage() {
     }
     function toggleAddShowFullNote(): void {
         setAddFullNoteVisibility(!addFullNoteVisibility);
+    }
+    function toggleCategoryFullNote(): void {
+        setCategoryFullNoteVisibility(!categoryFullNoteVisibility);
     }
 
     function searchFilter(inputText: string) {
@@ -115,7 +145,7 @@ export default function NotesPage() {
                 <form className="container-fluid justify-content-center mt-3 " role="search">
                     <Search searchFilter={searchFilter} />
                 </form>
-                <Categories categoryList={categoriesList} />
+                <Categories currentCategory={currentCategory} setCurrentCategory={setCategory} categoryList={categoriesList} />
             </nav>
             <main >
 
@@ -125,8 +155,24 @@ export default function NotesPage() {
 
                 <GoPlus className="add-new-note" onClick={() => setAddFullNoteVisibility(true)} />
 
-                <FullNote type={"add-note"} addNewNote={createNewNote} showAddFullNote={addFullNoteVisibility} toggleAddShowFullNote={toggleAddShowFullNote} />
-                <FullNote type={"reading-updating-note"} currentFullNote={notesList[currentFullNote]} updateNote={updateNote} showFullNote={fullNoteVisibility} toogleShowFullNote={toggleShowFullNote} />
+                <FullNote type={"add-note"}
+                    addNewNote={createNewNote}
+                    showAddFullNote={addFullNoteVisibility}
+                    toggleAddShowFullNote={toggleAddShowFullNote} />
+                <FullNote type={"reading-updating-note"}
+                    currentFullNote={notesList[currentFullNote]}
+                    updateNote={updateNote}
+                    showFullNote={fullNoteVisibility}
+                    toogleShowFullNote={toggleShowFullNote}
+                    toggleCategoryFullNote={toggleCategoryFullNote} />
+                <FullNote type={"change-note-category"}
+                    categoryList={categoriesList}
+                    notesList={notesList}
+                    currentFullNote={currentFullNote}
+                    showCategoryFullNote={categoryFullNoteVisibility}
+                    toggleCategoryFullNote={toggleCategoryFullNote}
+                    setNoteCategory={setNoteCategory}
+                />
             </main>
 
         </>

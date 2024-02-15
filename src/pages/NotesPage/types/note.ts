@@ -1,8 +1,10 @@
+import { CategoryType } from "./Categories";
 export default interface INote {
     id: number;
     title: string;
     text: string;
     date: string;
+    category: string;
 }
 
 
@@ -13,7 +15,6 @@ export interface NotesProps {
     toogleShowFullNote: () => void;
 
 }
-// type, currentFullNote, showFullNote, toogleShowFullNote, updateNote
 export interface NotePorps {
     note: INote;
     removeNote: (id: number) => void;
@@ -21,24 +22,28 @@ export interface NotePorps {
     toogleShowFullNote: () => void;
 }
 
-// export interface FullNotePorps {
-//     currentFullNote?: INote;
-//     showFullNote: boolean;
-//     toogleShowFullNote: () => void;
-//     updateNote: (argId: number, newTitle: string, newText: string) => void;
-// }
+
 
 export type FullNotePorps = {
     type: 'reading-updating-note'
     currentFullNote: INote;
     showFullNote: boolean;
     toogleShowFullNote: () => void;
+    toggleCategoryFullNote: () => void;
     updateNote: (argId: number, newTitle: string, newText: string) => void;
 } | {
     type: 'add-note';
     showAddFullNote: boolean;
     toggleAddShowFullNote: () => void;
     addNewNote: (title: string, text: string) => void;
+} | {
+    type: 'change-note-category';
+    currentFullNote: number;
+    notesList: INote[];
+    categoryList: CategoryType[];
+    setNoteCategory: (id: number, category: string) => void;
+    toggleCategoryFullNote: () => void;
+    showCategoryFullNote: boolean;
 }
 
 

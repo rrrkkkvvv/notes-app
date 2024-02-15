@@ -175,7 +175,7 @@ main {
 
 .modal .modal-body .close-modal-x {
   position: absolute;
-  top: 15px;
+  top: 10px;
   left: 35px;
   transform: scale(2.2);
   font-weight: 600;
@@ -184,6 +184,22 @@ main {
 
   &:hover {
     transform: scale(2.5);
+
+  }
+}
+
+.modal .modal-body .category-choose-button {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  /* transform: scale(2.2); */
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 1.2rem;
+
+  &:hover {
+    transform: scale(1.3);
 
   }
 }

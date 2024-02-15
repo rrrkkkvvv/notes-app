@@ -1,11 +1,13 @@
 
-interface CategoryType {
+export interface CategoryType {
     key: string,
     title: string,
-    activity: boolean,
 
 }
 
 export interface CategoriesProps {
     categoryList: CategoryType[];
+    setCurrentCategory: (key: string) => void;
+    currentCategory: string
 }
+

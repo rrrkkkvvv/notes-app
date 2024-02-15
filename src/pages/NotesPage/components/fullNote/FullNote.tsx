@@ -31,6 +31,7 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
                     <div className='modal-body' onClick={(e) => e.stopPropagation()} >
 
                         <span className='close-modal-x' onClick={props.toogleShowFullNote}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
+                        <span className='category-choose-button' onClick={() => { props.toogleShowFullNote(); props.toggleCategoryFullNote(); }}>Move to...</span>
                         <span className='fullNote-date-block'>{props.currentFullNote.date}</span>
                         <span className='fullNote-text-length-block'>{props.currentFullNote.text.length} symblos</span>
                         <input type='text' className='input-fullNote' placeholder='Title...' value={props.currentFullNote.title} onChange={
@@ -85,6 +86,48 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
                     <textarea name="" id="" className='text-area-fullNote' placeholder='Text...' value={mainText} onChange={(e) => {
                         setMainText(e.target.value);
                     }} cols={30} rows={10}></textarea>
+                </div>
+            </div>
+        )
+    } else if (props.type === 'change-note-category') {
+        const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+        return (
+            <div className={`modal full-item  ${props.showCategoryFullNote && 'visible'}`} onClick={() => {
+                props.toggleCategoryFullNote();
+
+            }}>
+                <div className='modal-body' onClick={(e) => e.stopPropagation()} >
+
+                    <span className='close-modal-x' onClick={() => {
+                        props.toggleCategoryFullNote();
+                    }}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
+                    <ul className="nav nav-pills flex-column">
+                        {
+                            props.categoryList.map((category) => (
+
+
+                                <li
+                                    className="nav-item mt-2"
+                                    key={category.key}
+                                    role="button"
+                                    onClick={() => {
+                                        props.setNoteCategory(props.currentFullNote, category.key);
+                                        setSelectedCategory(category.key);
+                                    }}
+                                >
+                                    <span
+                                        className={`nav-link ${props.notesList[props.currentFullNote] && props.notesList[props.currentFullNote].category === category.key || selectedCategory === category.key ? 'bg-warning' : ''} text-black`}
+                                        aria-current="page"
+                                    >
+                                        {category.title}
+                                    </span>
+                                </li>
+
+
+                            ))
+                        }
+                    </ul>
                 </div>
             </div>
         )
