@@ -62,6 +62,8 @@ export default function NotesPage() {
         setNotesList(newNotesList);
         setCurrentNotesList(newNotesList);
         setCategory(category);
+        localStorage.setItem('notes', JSON.stringify(newNotesList));
+
     }
     function createNewNote(title: string, text: string): void {
 
