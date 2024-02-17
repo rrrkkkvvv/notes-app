@@ -44,6 +44,8 @@ export type FullNotePorps = {
     setNoteCategory: (id: number, category: string) => void;
     toggleCategoryFullNote: () => void;
     showCategoryFullNote: boolean;
+    createNewCategory: (title: string) => void;
+    removeCategory: (key: string) => void;
 }
 
 

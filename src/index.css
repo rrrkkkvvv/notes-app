@@ -30,9 +30,7 @@ main {
 
 .nav-pills .nav-item {
   display: inline-block;
-  /* Делаем элементы списка строчными, чтобы они не переносились на новую строку */
   margin-right: 5px;
-  /* Добавляем небольшой отступ между элементами списка */
 }
 
 
@@ -45,6 +43,7 @@ main {
   margin-bottom: 2vh;
   position: relative;
   min-height: 170px;
+
   cursor: pointer;
 
   & p.card-text,
@@ -159,19 +158,7 @@ main {
   visibility: hidden;
 }
 
-@media(max-width:720px) {
-  .modal .modal-body {
-    width: 100%;
-    height: 100%;
-  }
 
-  .add-todo .modal .modal-body {
-    bottom: 10px;
-    min-height: 0;
-    height: 200px;
-    margin-bottom: 50px;
-  }
-}
 
 .modal .modal-body .close-modal-x {
   position: absolute;
@@ -192,7 +179,6 @@ main {
   position: absolute;
   top: 15px;
   right: 35px;
-  /* transform: scale(2.2); */
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
@@ -203,6 +189,37 @@ main {
 
   }
 }
+
+.add-new-category {
+  z-index: 2;
+  margin: auto;
+  margin-top: 10px;
+  width: 55px;
+  height: 55px;
+  color: #333;
+  border-radius: 50%;
+  background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity));
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.add-category-modal {
+  background-color: rgb(0, 0, 0, 0.3);
+
+}
+
+.category-modal-body {
+  max-height: 800px;
+  overflow-y: scroll;
+}
+
+.add-category-modal .modal-body {
+  min-height: 0;
+  height: 200px;
+  margin-bottom: 150px;
+}
+
+
 
 .fullNote-date-block {
   font-size: 0.85rem;
@@ -234,4 +251,26 @@ main {
 
 .todo-item {
   background-color: #fff;
+}
+
+@media(max-width:720px) {
+  .modal .modal-body {
+    width: 100%;
+    height: 100%;
+  }
+
+  .add-todo .modal .modal-body {
+    bottom: 10px;
+    min-height: 0;
+    height: 200px;
+    margin-bottom: 50px;
+  }
+
+  .add-category-modal .modal-body {
+
+    min-height: 0;
+    height: 200px;
+    margin-bottom: 0px;
+  }
+
 }

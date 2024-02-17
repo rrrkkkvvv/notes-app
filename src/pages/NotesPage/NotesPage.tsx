@@ -19,23 +19,28 @@ export default function NotesPage() {
     let [currentFullNote, setCurrentFullNote] = useState<number>(0);
     let [currentCategory, setCurrentCategory] = useState<string>('all');
 
-    // const [categoriesList, setCategoriesList] = useState<CategoryType[]>([
-    const [categoriesList] = useState<CategoryType[]>([
+    const [categoriesList, setCategoriesList] = useState<CategoryType[]>([
         { key: 'all', title: 'All' },
-        { key: 'main', title: 'Main' },
-        { key: 'diary', title: 'Diary' },
-        { key: 'lessons', title: 'Lessons' },
-        { key: 'any', title: 'any' },
+
     ]);
 
 
     useEffect(() => {
         let storedNotes = localStorage.getItem('notes');
-        if (storedNotes) {
+        let storedCategories = localStorage.getItem('categories');
+        if (storedNotes && storedCategories) {
             try {
                 let parsedNotes: INote[] = JSON.parse(storedNotes);
+                let parsedCategories: CategoryType[] = JSON.parse(storedCategories);
+
                 setCurrentNotesList(parsedNotes);
                 setNotesList(parsedNotes);
+                if (parsedCategories.length) {
+                    setCategoriesList(parsedCategories);
+
+                } else {
+                    setCategoriesList([{ key: 'all', title: 'All' }])
+                }
             } catch (error) {
                 console.error('Error parsing notes', error);
             }
@@ -110,6 +115,23 @@ export default function NotesPage() {
 
     }
 
+    function createNewCategory(title: string) {
+        let keyOfTitle = title.trim().toLowerCase();
+        if (title.trim() !== '' && !categoriesList.some(category => category.key === keyOfTitle)) {
+
+            setCategoriesList([...categoriesList, { key: keyOfTitle, title: title }]);
+            localStorage.setItem('categories', JSON.stringify([...categoriesList, { key: keyOfTitle, title: title }]))
+        }
+
+    }
+    function removeCategory(key: string) {
+        let newCategoriesList = categoriesList.filter((category) => category.key !== key);
+        setCategoriesList(newCategoriesList);
+        localStorage.setItem('categories', JSON.stringify(newCategoriesList));
+
+
+    }
+
 
     function updateNote(argId: number, newTitle: string, newText: string,) {
         let newDate = new Date().toLocaleString();
@@ -174,6 +196,8 @@ export default function NotesPage() {
                     showCategoryFullNote={categoryFullNoteVisibility}
                     toggleCategoryFullNote={toggleCategoryFullNote}
                     setNoteCategory={setNoteCategory}
+                    createNewCategory={createNewCategory}
+                    removeCategory={removeCategory}
                 />
             </main>
 

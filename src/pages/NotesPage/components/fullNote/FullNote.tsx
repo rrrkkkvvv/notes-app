@@ -1,6 +1,7 @@
 import { FullNotePorps } from '../../types/note'
 import { IoReturnDownBackOutline } from "react-icons/io5";
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState, KeyboardEvent } from 'react'
+import { GoPlus } from "react-icons/go";
 
 
 const FullNote: React.FC<FullNotePorps> = (props) => {
@@ -91,45 +92,82 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
         )
     } else if (props.type === 'change-note-category') {
         const [selectedCategory, setSelectedCategory] = useState<string>('');
+        const [addCategoryVisibility, setAddCategoryVisibility] = useState<boolean>(false);
+        let [inputValue, setInputValue] = useState<string>('')
 
+        const onKeyDownEvent = (e: KeyboardEvent): void => {
+            if (e.key === 'Enter') {
+                inputValue !== '' && props.createNewCategory(inputValue); setInputValue(''); setAddCategoryVisibility(false)
+            }
+        }
         return (
-            <div className={`modal full-item  ${props.showCategoryFullNote && 'visible'}`} onClick={() => {
-                props.toggleCategoryFullNote();
+            <div>
+                <div className={`modal full-item   ${props.showCategoryFullNote && 'visible'}`} onClick={() => {
+                    props.toggleCategoryFullNote();
 
-            }}>
-                <div className='modal-body' onClick={(e) => e.stopPropagation()} >
+                }}>
+                    <div className='modal-body category-modal-body' onClick={(e) => e.stopPropagation()} >
 
-                    <span className='close-modal-x' onClick={() => {
-                        props.toggleCategoryFullNote();
-                    }}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
-                    <ul className="nav nav-pills flex-column">
-                        {
-                            props.categoryList.map((category) => (
+                        <span className='close-modal-x' onClick={() => {
+                            props.toggleCategoryFullNote();
+                        }}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
+                        <ul className="nav nav-pills flex-column">
+                            {
+                                props.categoryList.map((category) => (
 
 
-                                <li
-                                    className="nav-item mt-2"
-                                    key={category.key}
-                                    role="button"
-                                    onClick={() => {
-                                        props.setNoteCategory(props.currentFullNote, category.key);
-                                        setSelectedCategory(category.key);
-                                    }}
-                                >
-                                    <span
-                                        className={`nav-link ${props.notesList[props.currentFullNote] && props.notesList[props.currentFullNote].category === category.key || selectedCategory === category.key ? 'bg-warning' : ''} text-black`}
-                                        aria-current="page"
+                                    <li
+                                        className="nav-item mt-2"
+                                        key={category.key}
+                                        role="button"
+                                        onClick={() => {
+                                            props.setNoteCategory(props.currentFullNote, category.key);
+                                            setSelectedCategory(category.key);
+                                        }}
                                     >
-                                        {category.title}
-                                    </span>
-                                </li>
+                                        <span
+                                            className={`nav-link ${props.notesList[props.currentFullNote] && props.notesList[props.currentFullNote].category === category.key || selectedCategory === category.key ? 'bg-warning' : ''} text-black`}
+                                            aria-current="page"
+                                        >
+                                            {category.title}
+                                            {category.key !== 'all' &&
+                                                <button className="todo-item__remove-button btn  text-danger" onClick={(e) => { e.stopPropagation(); props.removeCategory(category.key); }} >
+                                                    <i className="bi bi-trash3" ></i>
+                                                </button>
+                                            }
+
+                                        </span>
+
+                                    </li>
 
 
-                            ))
-                        }
-                    </ul>
+                                ))
+                            }
+                            <GoPlus className=" add-new-category  " onClick={() => setAddCategoryVisibility(true)} />
+
+
+
+
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div className={`modal  add-category-modal  ${addCategoryVisibility && 'visible'}`} onClick={() => setAddCategoryVisibility(false)}>
+                    <div className='modal-body' onClick={(e) => e.stopPropagation()} >
+
+                        <span className='close-modal-x' onClick={() => setAddCategoryVisibility(false)}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
+
+                        <div className="text-input text-input--focus mb-3 mt-4">
+                            <input className="form-control me-2 w-100 search-input" value={inputValue} placeholder='Enter a title of category...' onKeyDown={onKeyDownEvent} onChange={(e) => setInputValue(e.target.value)} />
+                        </div>
+                        <button className=" btn btn-secondary  " type='button'
+
+                            onClick={() => { inputValue !== '' && props.createNewCategory(inputValue); setInputValue(''); setAddCategoryVisibility(false) }}>Add</button>
+                    </div>
                 </div>
             </div>
+
         )
     }
 
