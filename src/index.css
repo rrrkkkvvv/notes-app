@@ -253,6 +253,10 @@ main {
   background-color: #fff;
 }
 
+.remove-category {
+  float: right;
+}
+
 @media(max-width:720px) {
   .modal .modal-body {
     width: 100%;

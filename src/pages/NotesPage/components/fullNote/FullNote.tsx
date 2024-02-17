@@ -131,7 +131,7 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
                                         >
                                             {category.title}
                                             {category.key !== 'all' &&
-                                                <button className="todo-item__remove-button btn  text-danger" onClick={(e) => { e.stopPropagation(); props.removeCategory(category.key); }} >
+                                                <button className="btn remove-category  text-danger" onClick={(e) => { e.stopPropagation(); props.removeCategory(category.key); }} >
                                                     <i className="bi bi-trash3" ></i>
                                                 </button>
                                             }
