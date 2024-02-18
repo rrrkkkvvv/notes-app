@@ -2,20 +2,21 @@ import { useEffect, useState } from "react"
 import INote from "./types/note"
 import Notes from "./components/notes/Notes"
 import { GoPlus } from "react-icons/go";
-import FullNote from "./components/fullNote/FullNote";
+import FullNote from "./components/FullNote";
 import Search from "./components/Search";
-import Categories from "./components/categories/Categories";
+import Categories from "./components/Categories";
 import { CategoryType } from "./types/Categories";
 export default function NotesPage() {
 
 
 
     let [notesList, setNotesList] = useState<INote[]>([]);
-    let [currentNotesList, setCurrentNotesList] = useState<INote[]>(notesList);
 
     let [fullNoteVisibility, setFullNoteVisibility] = useState<boolean>(false);
     let [addFullNoteVisibility, setAddFullNoteVisibility] = useState<boolean>(false);
     let [categoryFullNoteVisibility, setCategoryFullNoteVisibility] = useState<boolean>(false);
+
+    let [currentNotesList, setCurrentNotesList] = useState<INote[]>(notesList);
     let [currentFullNote, setCurrentFullNote] = useState<number>(0);
     let [currentCategory, setCurrentCategory] = useState<string>('all');
 
@@ -51,15 +52,12 @@ export default function NotesPage() {
 
     function setCategory(key: string) {
         if (key === 'all') {
-
             setCurrentCategory(key);
             setCurrentNotesList(notesList);
-
         } else {
             setCurrentCategory(key);
             setCurrentNotesList(currentNotesList = notesList.filter(note => note.category === key));
         }
-
     }
     function setNoteCategory(id: number, category: string): void {
         let newNotesList = notesList;
@@ -78,10 +76,8 @@ export default function NotesPage() {
             setNotesList(newNotesList);
             setCurrentNotesList([...currentNotesList, { id: currentNotesList.length, title: title, text: text, date: date, category: currentCategory }]);
             localStorage.setItem('notes', JSON.stringify(newNotesList));
-
         }
     }
-
     function removeNote(id: number): void {
         let newNoteList = notesList.filter((note) => note.id !== id);
         newNoteList.forEach((note, index) => {
@@ -90,23 +86,38 @@ export default function NotesPage() {
         setNotesList(newNoteList);
         setCurrentNotesList(newNoteList);
         localStorage.setItem('notes', JSON.stringify(newNoteList));
-
     }
-
+    function updateNote(argId: number, newTitle: string, newText: string,) {
+        let newDate = new Date().toLocaleString();
+        const updatedNotesList = notesList.map(note => {
+            if (note.id === argId) {
+                return {
+                    ...note,
+                    title: newTitle,
+                    text: newText,
+                    date: newDate,
+                };
+            }
+            return note;
+        });
+        setNotesList(updatedNotesList);
+        setCurrentNotesList(updatedNotesList);
+        localStorage.setItem('notes', JSON.stringify(updatedNotesList));
+    };
     function setFullNote(id: number): void {
-
         setCurrentFullNote(id);
-        toggleShowFullNote();
+        toggleModalVisibility('fullNote')
+    }
 
-    }
-    function toggleShowFullNote(): void {
-        setFullNoteVisibility(!fullNoteVisibility);
-    }
-    function toggleAddShowFullNote(): void {
-        setAddFullNoteVisibility(!addFullNoteVisibility);
-    }
-    function toggleCategoryFullNote(): void {
-        setCategoryFullNoteVisibility(!categoryFullNoteVisibility);
+
+    function toggleModalVisibility(type: string): void {
+        if (type === 'fullNote') {
+            setFullNoteVisibility(!fullNoteVisibility);
+        } else if (type === 'addNote') {
+            setAddFullNoteVisibility(!addFullNoteVisibility);
+        } else if (type === 'categoryModal') {
+            setCategoryFullNoteVisibility(!categoryFullNoteVisibility);
+        }
     }
 
     function searchFilter(inputText: string) {
@@ -133,29 +144,6 @@ export default function NotesPage() {
     }
 
 
-    function updateNote(argId: number, newTitle: string, newText: string,) {
-        let newDate = new Date().toLocaleString();
-
-        const updatedNotesList = notesList.map(note => {
-            if (note.id === argId) {
-
-                return {
-                    ...note,
-                    title: newTitle,
-                    text: newText,
-                    date: newDate,
-
-                };
-            }
-            return note;
-        });
-
-
-        setNotesList(updatedNotesList);
-        setCurrentNotesList(updatedNotesList);
-        localStorage.setItem('notes', JSON.stringify(updatedNotesList));
-
-    };
 
 
 
@@ -174,7 +162,7 @@ export default function NotesPage() {
             <main >
 
                 <div className="col-12   mt-2">
-                    <Notes toogleShowFullNote={toggleShowFullNote} setFullNote={setFullNote} removeNote={removeNote} notesList={currentNotesList} />
+                    <Notes toggleModalVisibility={toggleModalVisibility} setFullNote={setFullNote} removeNote={removeNote} notesList={currentNotesList} />
                 </div>
 
                 <GoPlus className="add-new-note" onClick={() => setAddFullNoteVisibility(true)} />
@@ -182,19 +170,19 @@ export default function NotesPage() {
                 <FullNote type={"add-note"}
                     addNewNote={createNewNote}
                     showAddFullNote={addFullNoteVisibility}
-                    toggleAddShowFullNote={toggleAddShowFullNote} />
+                    toggleModalVisibility={toggleModalVisibility} />
                 <FullNote type={"reading-updating-note"}
                     currentFullNote={notesList[currentFullNote]}
                     updateNote={updateNote}
                     showFullNote={fullNoteVisibility}
-                    toogleShowFullNote={toggleShowFullNote}
-                    toggleCategoryFullNote={toggleCategoryFullNote} />
+                    toggleModalVisibility={toggleModalVisibility}
+                />
                 <FullNote type={"change-note-category"}
                     categoryList={categoriesList}
                     notesList={notesList}
                     currentFullNote={currentFullNote}
                     showCategoryFullNote={categoryFullNoteVisibility}
-                    toggleCategoryFullNote={toggleCategoryFullNote}
+                    toggleModalVisibility={toggleModalVisibility}
                     setNoteCategory={setNoteCategory}
                     createNewCategory={createNewCategory}
                     removeCategory={removeCategory}

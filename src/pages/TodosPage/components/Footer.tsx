@@ -1,4 +1,4 @@
-import FooterType from '../types/FooterType'
+import { FooterType } from '../types/TodoTypes'
 
 export default function Footer({ countOfActiveTodos, countOfCompletedTodos }: FooterType) {
     return (

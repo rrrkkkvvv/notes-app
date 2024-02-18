@@ -253,9 +253,13 @@ main {
   background-color: #fff;
 }
 
-.remove-category {
-  float: right;
+.category-change-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.remove-category {}
 
 @media(max-width:720px) {
   .modal .modal-body {

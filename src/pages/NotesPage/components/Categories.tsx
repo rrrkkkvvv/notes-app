@@ -1,4 +1,4 @@
-import { CategoriesProps } from "../../types/Categories";
+import { CategoriesProps } from "../types/Categories";
 
 export default function Categories({ categoryList, setCurrentCategory, currentCategory }: CategoriesProps) {
   return (

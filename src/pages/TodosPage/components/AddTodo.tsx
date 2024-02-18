@@ -1,8 +1,7 @@
 import { useState, KeyboardEvent } from 'react'
 import { GoPlus } from "react-icons/go";
 import { IoReturnDownBackOutline } from "react-icons/io5";
-// import { ChangeEvent } from 'react'
-import AddTodoType from '../types/AddTodotype'
+import { AddTodoType } from '../types/TodoTypes'
 
 export default function AddTodo({ addTodo }: AddTodoType) {
 

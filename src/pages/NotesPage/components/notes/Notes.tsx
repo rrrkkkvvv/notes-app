@@ -1,12 +1,12 @@
 import { NotesProps } from '../../types/note'
 import Note from './Note'
 
-export default function Notes({ notesList, removeNote, setFullNote, toogleShowFullNote }: NotesProps) {
+export default function Notes({ notesList, removeNote, setFullNote, toggleModalVisibility }: NotesProps) {
     if (notesList.length > 0) {
         return (
             <div className='row'>
                 {notesList.map((note) => (
-                    <Note removeNote={removeNote} setFullNote={setFullNote} toogleShowFullNote={toogleShowFullNote} note={note} key={note.id} />
+                    <Note removeNote={removeNote} setFullNote={setFullNote} toggleModalVisibility={toggleModalVisibility} note={note} key={note.id} />
                 ))}
             </div>
 

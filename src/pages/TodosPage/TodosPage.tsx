@@ -4,7 +4,7 @@ import Header from './components/Header.tsx'
 import Footer from './components/Footer.tsx'
 import TodoList from './components/TodoList.tsx'
 import AddTodo from './components/AddTodo.tsx'
-import { todoStateItem } from './types/TodoListType.ts'
+import { todoStateItem } from './types/TodoTypes.ts'
 
 
 export default function TodosPage() {

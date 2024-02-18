@@ -12,14 +12,14 @@ export interface NotesProps {
     notesList: INote[];
     removeNote: (id: number) => void;
     setFullNote: (id: number) => void;
-    toogleShowFullNote: () => void;
+    toggleModalVisibility: (type: string) => void;
 
 }
 export interface NotePorps {
     note: INote;
     removeNote: (id: number) => void;
     setFullNote: (id: number) => void;
-    toogleShowFullNote: () => void;
+    toggleModalVisibility: (type: string) => void;
 }
 
 
@@ -28,13 +28,12 @@ export type FullNotePorps = {
     type: 'reading-updating-note'
     currentFullNote: INote;
     showFullNote: boolean;
-    toogleShowFullNote: () => void;
-    toggleCategoryFullNote: () => void;
+    toggleModalVisibility: (type: string) => void;
     updateNote: (argId: number, newTitle: string, newText: string) => void;
 } | {
     type: 'add-note';
     showAddFullNote: boolean;
-    toggleAddShowFullNote: () => void;
+    toggleModalVisibility: (type: string) => void;
     addNewNote: (title: string, text: string) => void;
 } | {
     type: 'change-note-category';
@@ -42,7 +41,7 @@ export type FullNotePorps = {
     notesList: INote[];
     categoryList: CategoryType[];
     setNoteCategory: (id: number, category: string) => void;
-    toggleCategoryFullNote: () => void;
+    toggleModalVisibility: (type: string) => void;
     showCategoryFullNote: boolean;
     createNewCategory: (title: string) => void;
     removeCategory: (key: string) => void;

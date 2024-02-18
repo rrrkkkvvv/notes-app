@@ -1,4 +1,4 @@
-import { FullNotePorps } from '../../types/note'
+import { FullNotePorps } from '../types/note'
 import { IoReturnDownBackOutline } from "react-icons/io5";
 import { ChangeEvent, useState, KeyboardEvent } from 'react'
 import { GoPlus } from "react-icons/go";
@@ -28,11 +28,11 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
 
 
             return (
-                <div className={`modal full-item  ${props.showFullNote && 'visible'}`} onClick={props.toogleShowFullNote}>
+                <div className={`modal full-item  ${props.showFullNote && 'visible'}`} onClick={() => props.toggleModalVisibility('fullNote')}>
                     <div className='modal-body' onClick={(e) => e.stopPropagation()} >
 
-                        <span className='close-modal-x' onClick={props.toogleShowFullNote}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
-                        <span className='category-choose-button' onClick={() => { props.toogleShowFullNote(); props.toggleCategoryFullNote(); }}>Move to...</span>
+                        <span className='close-modal-x' onClick={() => props.toggleModalVisibility('fullNote')}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
+                        <span className='category-choose-button' onClick={() => { props.toggleModalVisibility('fullNote'); props.toggleModalVisibility('categoryModal'); }}>Move to...</span>
                         <span className='fullNote-date-block'>{props.currentFullNote.date}</span>
                         <span className='fullNote-text-length-block'>{props.currentFullNote.text.length} symblos</span>
                         <input type='text' className='input-fullNote' placeholder='Title...' value={props.currentFullNote.title} onChange={
@@ -50,10 +50,10 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
             )
         } else {
             return (
-                <div className={`modal full-item  ${props.showFullNote && 'visible'}`} onClick={props.toogleShowFullNote}>
+                <div className={`modal full-item  ${props.showFullNote && 'visible'}`} onClick={() => props.toggleModalVisibility('fullNote')}>
                     <div className='modal-body' onClick={(e) => e.stopPropagation()} >
 
-                        <span className='close-modal-x' onClick={props.toogleShowFullNote}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
+                        <span className='close-modal-x' onClick={() => props.toggleModalVisibility('fullNote')}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
                         <h1>...</h1>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
                 setTitleText('');
                 setMainText('');
                 props.addNewNote(titleText, mainText);
-                props.toggleAddShowFullNote();
+                props.toggleModalVisibility('addNote');
             }}>
                 <div className='modal-body' onClick={(e) => e.stopPropagation()} >
 
@@ -76,7 +76,7 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
                         setTitleText('');
                         setMainText('');
                         props.addNewNote(titleText, mainText);
-                        props.toggleAddShowFullNote();
+                        props.toggleModalVisibility('addNote');
                     }}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
                     <span className='fullNote-date-block'></span>
                     <span className='fullNote-text-length-block'>{mainText.length} symblos</span>
@@ -103,21 +103,19 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
         return (
             <div>
                 <div className={`modal full-item   ${props.showCategoryFullNote && 'visible'}`} onClick={() => {
-                    props.toggleCategoryFullNote();
+                    props.toggleModalVisibility('categoryModal');
 
                 }}>
                     <div className='modal-body category-modal-body' onClick={(e) => e.stopPropagation()} >
 
                         <span className='close-modal-x' onClick={() => {
-                            props.toggleCategoryFullNote();
+                            props.toggleModalVisibility('categoryModal');
                         }}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
                         <ul className="nav nav-pills flex-column">
                             {
                                 props.categoryList.map((category) => (
-
-
                                     <li
-                                        className="nav-item mt-2"
+                                        className="nav-item mt-1 w-100"
                                         key={category.key}
                                         role="button"
                                         onClick={() => {
@@ -126,7 +124,7 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
                                         }}
                                     >
                                         <span
-                                            className={`nav-link ${props.notesList[props.currentFullNote] && props.notesList[props.currentFullNote].category === category.key || selectedCategory === category.key ? 'bg-warning' : ''} text-black`}
+                                            className={`nav-link border category-change-button ${props.notesList[props.currentFullNote] && props.notesList[props.currentFullNote].category === category.key || selectedCategory === category.key ? 'bg-warning' : ''} text-black`}
                                             aria-current="page"
                                         >
                                             {category.title}
@@ -143,27 +141,35 @@ const FullNote: React.FC<FullNotePorps> = (props) => {
 
                                 ))
                             }
-                            <GoPlus className=" add-new-category  " onClick={() => setAddCategoryVisibility(true)} />
-
-
-
-
+                            <GoPlus className="add-new-category" onClick={() => setAddCategoryVisibility(true)} />
 
                         </ul>
                     </div>
 
                 </div>
-                <div className={`modal  add-category-modal  ${addCategoryVisibility && 'visible'}`} onClick={() => setAddCategoryVisibility(false)}>
+                {/*-------------- Creating and changing of categories--------- */}
+                <div className={`modal  add-category-modal  ${addCategoryVisibility && 'visible'}`}
+                    onClick={() => setAddCategoryVisibility(false)}>
                     <div className='modal-body' onClick={(e) => e.stopPropagation()} >
 
-                        <span className='close-modal-x' onClick={() => setAddCategoryVisibility(false)}><IoReturnDownBackOutline ></IoReturnDownBackOutline ></span>
+                        <span className='close-modal-x'
+                            onClick={() => setAddCategoryVisibility(false)}>
+                            <IoReturnDownBackOutline ></IoReturnDownBackOutline >
+                        </span>
 
                         <div className="text-input text-input--focus mb-3 mt-4">
-                            <input className="form-control me-2 w-100 search-input" value={inputValue} placeholder='Enter a title of category...' onKeyDown={onKeyDownEvent} onChange={(e) => setInputValue(e.target.value)} />
+                            <input className="form-control me-2 w-100 search-input"
+                                value={inputValue} placeholder='Enter a title of category...'
+                                onKeyDown={onKeyDownEvent}
+                                onChange={(e) => setInputValue(e.target.value)} />
                         </div>
-                        <button className=" btn btn-secondary  " type='button'
+                        <button className=" btn btn-secondary " type='button'
 
-                            onClick={() => { inputValue !== '' && props.createNewCategory(inputValue); setInputValue(''); setAddCategoryVisibility(false) }}>Add</button>
+                            onClick={() => {
+                                inputValue !== '' && props.createNewCategory(inputValue);
+                                setInputValue('');
+                                setAddCategoryVisibility(false)
+                            }}>Add</button>
                     </div>
                 </div>
             </div>

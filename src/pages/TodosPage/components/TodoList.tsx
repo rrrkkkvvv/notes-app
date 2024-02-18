@@ -1,5 +1,5 @@
 import TodoItem from './TodoItem'
-import TodoListType from '../types/TodoListType'
+import { TodoListType } from '../types/TodoTypes'
 
 const TodoList = ({ todos, deleteTodo, toggleTodo }: TodoListType) => {
 
