@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react'
-import Header from './components/Header.tsx'
-import Footer from './components/Footer.tsx'
+import Header from './components/todosHeader.tsx'
+import Footer from './components/todosFooter.tsx'
 import TodoList from './components/TodoList.tsx'
 import AddTodo from './components/AddTodo.tsx'
 import { todoStateItem } from './types/TodoTypes.ts'
