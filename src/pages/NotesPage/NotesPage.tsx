@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import INote from "./types/note"
 import Notes from "./components/notes/Notes"
 import { GoPlus } from "react-icons/go";
@@ -10,20 +10,37 @@ export default function NotesPage() {
 
 
 
-    let [notesList, setNotesList] = useState<INote[]>([]);
+    const [notesList, setNotesList] = useState<INote[]>([]);
 
-    let [fullNoteVisibility, setFullNoteVisibility] = useState<boolean>(false);
-    let [addFullNoteVisibility, setAddFullNoteVisibility] = useState<boolean>(false);
-    let [categoryFullNoteVisibility, setCategoryFullNoteVisibility] = useState<boolean>(false);
+    const [fullNoteVisibility, setFullNoteVisibility] = useState<boolean>(false);
+    const [addFullNoteVisibility, setAddFullNoteVisibility] = useState<boolean>(false);
+    const [categoryFullNoteVisibility, setCategoryFullNoteVisibility] = useState<boolean>(false);
 
-    let [currentNotesList, setCurrentNotesList] = useState<INote[]>(notesList);
-    let [currentFullNote, setCurrentFullNote] = useState<number>(0);
-    let [currentCategory, setCurrentCategory] = useState<string>('all');
+    const [currentNotesList, setCurrentNotesList] = useState<INote[]>(notesList);
+    const [currentFullNote, setCurrentFullNote] = useState<number>(0);
+    const [currentCategory, setCurrentCategory] = useState<string>('all');
 
     const [categoriesList, setCategoriesList] = useState<CategoryType[]>([
         { key: 'all', title: 'All' },
 
     ]);
+
+
+    const toggleModalVisibility = useCallback((type: string): void => {
+        if (type === 'fullNote') {
+            setFullNoteVisibility(!fullNoteVisibility);
+        } else if (type === 'addNote') {
+            setAddFullNoteVisibility(!addFullNoteVisibility);
+        } else if (type === 'categoryModal') {
+            setCategoryFullNoteVisibility(!categoryFullNoteVisibility);
+        }
+    }, [fullNoteVisibility, addFullNoteVisibility, categoryFullNoteVisibility]);
+
+    const searchFilter = useCallback((inputText: string): void => {
+        let filtredNoteList = notesList.filter((note) => note.text.includes(inputText.trim()) || note.title.includes(inputText.trim()));
+        setCurrentNotesList(filtredNoteList);
+    }, [currentNotesList]);
+
 
 
     useEffect(() => {
@@ -56,7 +73,7 @@ export default function NotesPage() {
             setCurrentNotesList(notesList);
         } else {
             setCurrentCategory(key);
-            setCurrentNotesList(currentNotesList = notesList.filter(note => note.category === key));
+            setCurrentNotesList(notesList.filter(note => note.category === key));
         }
     }
     function setNoteCategory(id: number, category: string): void {
@@ -79,13 +96,18 @@ export default function NotesPage() {
         }
     }
     function removeNote(id: number): void {
-        let newNoteList = notesList.filter((note) => note.id !== id);
-        newNoteList.forEach((note, index) => {
-            note.id = index;
-        });
-        setNotesList(newNoteList);
-        setCurrentNotesList(newNoteList);
-        localStorage.setItem('notes', JSON.stringify(newNoteList));
+        let removeAgree = confirm(`You definitely want to remove an "${notesList[id].title}" note`);
+        if (removeAgree) {
+
+
+            let newNoteList = notesList.filter((note) => note.id !== id);
+            newNoteList.forEach((note, index) => {
+                note.id = index;
+            });
+            setNotesList(newNoteList);
+            setCurrentNotesList(newNoteList);
+            localStorage.setItem('notes', JSON.stringify(newNoteList));
+        }
     }
     function updateNote(argId: number, newTitle: string, newText: string,) {
         let newDate = new Date().toLocaleString();
@@ -110,21 +132,8 @@ export default function NotesPage() {
     }
 
 
-    function toggleModalVisibility(type: string): void {
-        if (type === 'fullNote') {
-            setFullNoteVisibility(!fullNoteVisibility);
-        } else if (type === 'addNote') {
-            setAddFullNoteVisibility(!addFullNoteVisibility);
-        } else if (type === 'categoryModal') {
-            setCategoryFullNoteVisibility(!categoryFullNoteVisibility);
-        }
-    }
 
-    function searchFilter(inputText: string) {
-        let filtredNoteList = notesList.filter((note) => note.text.includes(inputText.trim()) || note.title.includes(inputText.trim()));
-        setCurrentNotesList(filtredNoteList);
 
-    }
 
     function createNewCategory(title: string) {
         let keyOfTitle = title.trim().toLowerCase();
