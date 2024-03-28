@@ -9,28 +9,13 @@ function App() {
   let [currentPage, setCurrentPage] = useState<CurrentPageStatus>('notes');
 
 
-  function setPage(page: CurrentPageStatus): void {
-    setCurrentPage(page)
-  }
-  if (currentPage === 'notes') {
-    return (
-
-      <div>
-        <Navbar setPage={setPage} currentPage={currentPage} />
-
-        <NotesPage />
-      </div>
-    )
-  } else if (currentPage === 'todos') {
-    return (
-      <div>
-        <Navbar setPage={setPage} currentPage={currentPage} />
-        <TodosPage />
-      </div>
-    )
-  }
-
-
+  return (
+    <>
+      <Navbar setCurrentPage={setCurrentPage} currentPage={currentPage} />
+      
+      {currentPage ==='notes' ? <NotesPage/> : <TodosPage/>}
+    </>
+  );
 }
 
 export default App
