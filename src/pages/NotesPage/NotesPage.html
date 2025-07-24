@@ -1,0 +1,44 @@
+<nav class="navbar bg-body-tertiary">
+  <div class="container-fluid mt-2 justify-content-center">
+    <h1>Notes</h1>
+  </div>
+  <form class="container-fluid justify-content-center mt-3" role="search">
+    <search-input></search-input>
+  </form>
+  <categories-list data-current-category-key=""></categories-list>
+</nav>
+<main>
+  <div class="col-12 mt-2">
+    <notes-list data-search="" data-current-category-key=""></notes-list>
+  </div>
+
+  <div class="add-btn fixed">
+    <svg
+      class="w-6 h-6 text-gray-800 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="45"
+      height="45"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 12h14m-7 7V5"
+      />
+    </svg>
+  </div>
+  <!-- <app-modal class="add-note-modal"> </app-modal> -->
+  <add-note-modal
+    class="add-note-modal"
+    data-current-category-key=""
+  ></add-note-modal>
+  <full-note-modal class="full-note-modal" data-full-note></full-note-modal>
+  <change-category-modal
+    class="change-category-modal"
+    data-note-id
+  ></change-category-modal>
+</main>
